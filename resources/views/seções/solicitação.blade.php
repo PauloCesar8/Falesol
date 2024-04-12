@@ -39,7 +39,7 @@
         <label for="anexos" class="form-label">Anexos:</label>
 <input type="file" class="form-control" id="anexos" name="anexos[]" multiple accept="image/*, video/*, .pdf, .doc, .docx" style="height: 40px; padding: 0;">
 <p class="form-text">Selecione foto, vídeo ou documentos para anexar (múltiplos arquivos são permitidos).</p>
-
+s
         <div class="text-start">
             <a href="/Saúde" class="btn bg-warning w-100 mt-4 mb-0">CADASTRAR</a>
         </div>
