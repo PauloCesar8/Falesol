@@ -1,216 +1,108 @@
-@extends('layouts.user_type.auth')
+@extends(auth()->check() ? 'layouts.user_type.auth' : 'layouts.user_type.guest')
 
 @section('content')
-<head>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" />
-</head>
+{{-- Pagina principal: menu com solicitção de serviços,   --}}
 
-<div class="d-flex flex-row flex-wrap justify-content-between" style="margin-top: 30px;">
-    <a href="/Saúde">
-  <div class="d-flex flex-column me-3 mb-3 align-items-center">
-    <i class="fa fa-heart me-sm-1 fa-4x"></i>
-    <span>Saúde</span>
-  </div>
-  </a>
-  <a href="/Vacinação"> 
-  <div class="d-flex flex-column me-3 mb-3 align-items-center">
-    <i class="fa fa-syringe me-sm-1 fa-4x"></i>
-    <span>Vacinação</span>
-  </div>
-  </a>
-  <a href="/serviços">
-  <div class="d-flex flex-column me-3 mb-3 align-items-center">
-    <i class="fa-solid fa-headphones me-sm-1 fa-4x"></i>
-    <span>Serviços</span>
-  </div>
-  </a>
-</div>
-<div class="d-flex flex-row flex-wrap justify-content-between" style="margin-top: 55px;">
-  <a href="/Trânsito">
-  <div class="d-flex flex-column me-3 mb-3 align-items-center">
-    <i class="fa fa-bus me-sm-1 fa-4x"></i>
-    <span>Trânsito</span>
-  </div>
-  </a>
-  <a href="/Educação">
-  <div class="d-flex flex-column me-3 mb-3 align-items-center">
-    <i class="fa fa-school me-sm-1 fa-4x"></i>
-    <span>Educação</span>
-  </div>
-  </a>
-  <a href="/Seguranca">
-    <div class="d-flex flex-column me-3 mb-3 align-items-center">
-        <i class="fa-solid fa-building-columns me-sm-1 fa-4x"></i>
-        <span>Segurança</span>
-    </div>
-  </a>
-</div>
-<div class="d-flex flex-row flex-wrap justify-content-between"   style="margin-top: 55px; ">
-<a href="/Saúde">
-  <div class="d-flex flex-column me-3 mb-3 align-items-center">
-    <i class="fa fa-trash me-sm-1 fa-4x"></i>
-    <span>Coleta</span>
-  </div>
-  </a>
-  <a href="/Saúde">
-  <div class="d-flex flex-column me-3 mb-3 align-items-center">
-    <i class="fa fa-money me-sm-1 fa-4x"></i>
-    <span>Finanças</span>
-  </div>
-  </a>
-  <a href="/Saúde">
-  <div class="d-flex flex-column me-3 mb-3 align-items-center">
-    <i class="fa fa-phone me-sm-1 fa-4x"></i>
-    <span>Contatos</span>
-  </div>
-</a>
-</div>
-{{-- <button class="navbar-toggler shadow-none ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
-  <span class="navbar-toggler-icon mt-1">
-    <span class="navbar-toggler-bar bar1"></span>
-    <span class="navbar-toggler-bar bar2"></span>
-    <span class="navbar-toggler-bar bar3"></span>
-  </span>
-</button>
-<div class="collapse navbar-collapse" id="navigation">
-    <div class="d-flex flex-row flex-wrap justify-content-between">
-    <div class="col-lg-5 col-6">
-      <div class="card h-100 p-1">
-        <div class="overflow-hidden position-relative border-radius-lg bg-cover h-100" style="background-image: url('../assets/img/ivancik.jpg');">
-          <span class="mask bg-gradient-dark"></span>
-          <div class="card-body position-relative z-index-1 d-flex flex-column h-100 p-3">
-            <h5 class="text-white font-weight-bolder mb-0 pt-2">Saúde</h5>
-            <a class="text-white text-sm font-weight-bold mb-0 icon-move-right mt-auto" href="/Saúde;">   
-              <i class="fas fa-arrow-right text-sm ms-1" aria-hidden="true" style="float: right;"></i>
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-lg-5 col-6">
-      <div class="card h-100 p-1">
-        <div class="overflow-hidden position-relative border-radius-lg bg-cover h-100" style="background-image: url('../assets/img/ivancik.jpg');">
-          <span class="mask bg-gradient-dark"></span>
-          <div class="card-body position-relative z-index-1 d-flex flex-column h-100 p-3">
-            <h5 class="text-white font-weight-bolder mb-0 pt-2">Serviços</h5>
-            <a class="text-white text-sm font-weight-bold mb-0 icon-move-right mt-auto" href="/serviços">            
-              <i class="fas fa-arrow-right text-sm ms-1" aria-hidden="true" style="float: right;"></i>
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="d-flex flex-row flex-wrap justify-content-between">
-    <div class="col-lg-5 col-6">
-      <div class="card h-100 p-1">
-        <div class="overflow-hidden position-relative border-radius-lg bg-cover h-100" style="background-image: url('../assets/img/ivancik.jpg');">
-          <span class="mask bg-gradient-dark"></span>
-          <div class="card-body position-relative z-index-1 d-flex flex-column h-100 p-3">
-            <h5 class="text-white font-weight-bolder mb-4 pt-2">Vacinação</h5>
-            <a class="text-white text-sm font-weight-bold mb-0 icon-move-right mt-auto" href="http://vacinasol.sobral.ce.gov.br//solicitacao">            
-              <i class="fas fa-arrow-right text-sm ms-1" aria-hidden="true" style="float: right;"></i>
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-lg-5 col-6">
-      <div class="card h-100 p-1">
-        <div class="overflow-hidden position-relative border-radius-lg bg-cover h-100" style="background-image: url('../assets/img/ivancik.jpg');">
-          <span class="mask bg-gradient-dark"></span>
-          <div class="card-body position-relative z-index-1 d-flex flex-column h-100 p-3">
-            <h5 class="text-white font-weight-bolder mb-4 pt-2">Trânsito</h5>
-            <a class="text-white text-sm font-weight-bold mb-0 icon-move-right mt-auto" href="javascript:;">
-              <i class="fas fa-arrow-right text-sm ms-1" aria-hidden="true" style="float: right;"></i>
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="d-flex flex-row flex-wrap justify-content-between">
-    <div class="col-lg-5 col-6">
-      <div class="card h-100 p-3">
-        <div class="overflow-hidden position-relative border-radius-lg bg-cover h-100" style="background-image: url('../assets/img/ivancik.jpg');">
-          <span class="mask bg-gradient-dark"></span>
-          <div class="card-body position-relative z-index-1 d-flex flex-column h-100 p-3">
-            <h5 class="text-white font-weight-bolder mb-4 pt-2">Educação</h5>
-            <a class="text-white text-sm font-weight-bold mb-0 icon-move-right mt-auto" href="javascript:;">
-              <i class="fas fa-arrow-right text-sm ms-1" aria-hidden="true" style="float: right;"></i>
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-lg-5 col-6">
-      <div class="card h-100 p-3">
-        <div class="overflow-hidden position-relative border-radius-lg bg-cover h-100" style="background-image: url('../assets/img/ivancik.jpg');">
-          <span class="mask bg-gradient-dark"></span>
-          <div class="card-body position-relative z-index-1 d-flex flex-column h-100 p-3">
-            <h5 class="text-white font-weight-bolder mb-4 pt-2">Segurança</h5>
-            <a class="text-white text-sm font-weight-bold mb-0 icon-move-right mt-auto" href="javascript:;">
-              <i class="fas fa-arrow-right text-sm ms-1" aria-hidden="true" style="float: right;"></i>
-            </a>
+<div class="page-header min-vh-70">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-5 col-md-6 mx-auto mt-1">
+        <div class="card card-plain">
+          <div class="card-header pb-0 text-left bg-transparent">
+            <p class="mb-0">Olá, como podemos ajudar?</p>
+              @if (Auth::user()->conta == 1)
+                <a href="/solicitação" class="btn bg-gradient-info w-100 mt-4">Enviar uma solicitação</a>
+                <a href="/consulta-protocolo" class="btn bg-gradient-info w-100 mt-4">Consulta de Protocolo</a>
+              @elseif (Auth::user()->conta == 2)
+                <a href="/solicitação" class="btn bg-gradient-info w-100 mt-4">Painel de Solicitações</a>
+                <a href="/consulta-solicitacao" class="btn bg-gradient-info w-100 mt-4">Consulta de Protocolo</a>
+              @endif
           </div>
         </div>
       </div>
     </div>
   </div>
 </div>
-</div> --}}
+<div class="container mt-5">
+  <div class="card">
+    <div class="card-header d-flex justify-content-center align-items-center toggle-icon" id="cardHeader">
+      <h6 class="mb-0">Outros Serviços</h6>
+      <i class="fa fa-chevron-down ms-2" id="trocarIcone"></i>
+    </div>
+    <div class="card-body collapse" id="CardConteudo">
+      <div class="d-flex flex-row flex-wrap justify-content-between mt-3">
+        <a href="/Saúde">
+          <div class="d-flex flex-column me-3 mb-3 align-items-center">
+            <i class="fa fa-heart me-sm-1 fa-4x"></i>
+            <span>Saúde</span>
+          </div>
+        </a>
+        <a href="/Vacinação"> 
+          <div class="d-flex flex-column me-3 mb-3 align-items-center">
+            <i class="fa fa-syringe me-sm-1 fa-4x"></i>
+            <span>Vacinação</span>
+          </div>
+        </a>
+        <a href="/serviços">
+          <div class="d-flex flex-column me-3 mb-3 align-items-center">
+            <i class="fa-solid fa-headphones me-sm-1 fa-4x"></i>
+            <span>Serviços</span>
+          </div>
+        </a>
+        <a href="/Trânsito">
+          <div class="d-flex flex-column me-3 mb-3 align-items-center">
+            <i class="fa fa-bus me-sm-1 fa-4x"></i>
+            <span>Trânsito</span>
+          </div>
+        </a>
+        <a href="/Educação">
+          <div class="d-flex flex-column me-3 mb-3 align-items-center">
+            <i class="fa fa-school me-sm-1 fa-4x"></i>
+            <span>Educação</span>
+          </div>
+        </a>
+        <a href="/Seguranca">
+          <div class="d-flex flex-column me-3 mb-3 align-items-center">
+            <i class="fa-solid fa-building-columns me-sm-1 fa-4x"></i>
+            <span>Segurança</span>
+          </div>
+        </a>
+        <a href="/Saúde">
+          <div class="d-flex flex-column me-3 mb-3 align-items-center">
+            <i class="fa fa-trash me-sm-1 fa-4x"></i>
+            <span>Coleta</span>
+          </div>
+        </a>
+        <a href="/Saúde">
+          <div class="d-flex flex-column me-3 mb-3 align-items-center">
+            <i class="fa fa-phone me-sm-1 fa-4x"></i>
+            <span>Contatos</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
 
-{{-- 
-    <div class="d-flex flex-row flex-wrap justify-content-between">
-      @foreach ($services as $service)
-      <div class="col-lg-5 col-6">
-        <div class="card h-100 p-3">
-          <div class="overflow-hidden position-relative border-radius-lg bg-cover h-100" style="background-image: url('../assets/img/ivancik.jpg');">
-            <span class="mask bg-gradient-dark"></span>
-            <div class="card-body position-relative z-index-1 d-flex flex-column h-100 p-3">
-              <h5 class="text-white font-weight-bolder mb-4 pt-2">
-                  {{$service->name }}
-              </h5>
-              <a class="text-white text-sm font-weight-bold mb-0 icon-move-right mt-auto" href="javascript:;">
-                <i class="fas fa-arrow-right text-sm ms-1" aria-hidden="true" style="float: right;"></i>
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-      @endforeach
-    </div>
-    <div class="row">
-      @foreach ($services as $service)
-        <div class="col-lg-6 mb-4">
-          <div class="bg-light border rounded p-3">
-            <h5 class="text-dark font-weight-bolder mb-3">{{$service->name}}</h5>
-            <p class="text-secondary mb-3">Descrição ou detalhes do serviço.</p>
-            <a class="btn btn-primary" href="#">Detalhes</a>
-          </div>
-        </div>
-      @endforeach
-    </div>
-    <div class="row">
-      @foreach ($services as $service)
-        <div class="col-lg-6 mb-3">
-          <div class="bg-light border rounded p-3">
-            <h5 class="text-dark font-weight-bolder">{{$service->name}}</h5>
-            <a class="btn btn-primary" href="#">Ver mais</a>
-          </div>
-        </div>
-      @endforeach
-    </div>
-    <div class="row">
-      @foreach ($services as $service)
-        <div class="col-lg-6 mb-2">
-          <div class="bg-light border rounded p-3">
-            <h5 class="text-dark font-weight-bolder">{{$service->name}}</h5>
-          </div>
-        </div>
-      @endforeach
-    </div>    
-  </div>
-</div> --}}
+
+<script>
+  document.querySelector('#cardHeader').addEventListener('click', function () {
+    let cardBody = document.querySelector('#CardConteudo');
+    let toggleIcon = document.querySelector('#trocarIcone');
+
+    if (cardBody.classList.contains('show')) {
+      cardBody.classList.remove('show');
+      toggleIcon.classList.remove('fa-chevron-up');
+      toggleIcon.classList.add('fa-chevron-down');
+    } else {
+      cardBody.classList.add('show');
+      toggleIcon.classList.remove('fa-chevron-down');
+      toggleIcon.classList.add('fa-chevron-up');
+    }
+  });
+</script>
+
+
 
 @endsection
 @push('dashboard')

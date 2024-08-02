@@ -8,6 +8,7 @@ use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\ResetController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\SessionsController;
+use App\Http\Controllers\SolicitaController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Route;
@@ -25,19 +26,6 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::group(['middleware' => 'auth'], function () {
-
-    Route::get('/', [HomeController::class, 'home']);
-
-	Route::get('pesquisa', [ServiceController::class, 'index'])->name('pesquisa');
-	Route::get('dashboard', [ServiceController::class, 'index2'])->name('dashboard');
-
-	// Route::get('pesquisa', function () {
-	// 	return view('seções/pesquisa');
-	// })->name('pesquisa');
-	// Route::get('dashboard', function () {
-	// 	return view('dashboard');
-	// })->name('dashboard');
-
 	Route::get('serviços', function () {
 		return view('seções/serviços');
 	})->name('serviços');
@@ -46,29 +34,10 @@ Route::group(['middleware' => 'auth'], function () {
 		return view('seções/solicitação');
 	})->name('solicitação');
 
-	Route::get('billing', function () {
-		return view('billing');
-	})->name('billing');
-
-	Route::get('profile', function () {
-		return view('profile');
-	})->name('profile');
-
-	Route::get('rtl', function () {
-		return view('rtl');
-	})->name('rtl');
 
 	Route::get('user-management', function () {
 		return view('laravel-examples/user-management');
 	})->name('user-management');
-
-	Route::get('tables', function () {
-		return view('tables');
-	})->name('tables');
-
-    Route::get('virtual-reality', function () {
-		return view('virtual-reality');
-	})->name('virtual-reality');
 
     Route::get('static-sign-in', function () {
 		return view('static-sign-in');
@@ -86,7 +55,16 @@ Route::group(['middleware' => 'auth'], function () {
 	})->name('sign-up');
 });
 
+Route::middleware(['auth', 'checkAccountType:user'])->group(function () {
+    Route::get('/solicitar', [SolicitaController::class, 'create'])->name('solicitar');
+    Route::get('/consulta-protocolo', [SolicitaController::class, 'showConsultaForm'])->name('consulta.protocolo');
+});
 
+Route::middleware(['auth', 'checkAccountType:employee'])->group(function () {
+    Route::get('/consultar-todas', [SolicitaController::class, 'index'])->name('consultar.todas');
+    Route::post('/mudar-estado/{id}', [SolicitaController::class, 'mudarEstado'])->name('mudar.estado');
+    Route::post('/responder/{id}', [SolicitaController::class, 'responder'])->name('responder.solicitacao');
+});
 
 Route::group(['middleware' => 'guest'], function () {
     Route::get('/register', [RegisterController::class, 'create']);
@@ -104,9 +82,25 @@ Route::get('/login', function () {
     return view('session/login-session');
 })->name('login');
 
+Route::get('/consulta-solicitacao', [SolicitaController::class, 'showConsultaForm'])->name('solicitacao.consulta');
+Route::post('/consulta-solicitacao', [SolicitaController::class, 'consultarSolicitacao'])->name('solicitacao.consultar');
+Route::get('/responder-solicitacao/{id}', [SolicitaController::class, 'showResponderForm'])->name('solicitacao.responder');
+Route::post('/responder-solicitacao/{id}', [SolicitaController::class, 'responderSolicitacao'])->name('solicitacao.responder.salvar');
 
+Route::get('teste', function () {
+	return view('welcome');
+});
+Route::get('/', [HomeController::class, 'home']);
+Route::get('pesquisa', [ServiceController::class, 'index'])->name('pesquisa');
+Route::get('dashboard', [ServiceController::class, 'index2'])->name('dashboard');
+Route::get('consulta', [SolicitaController::class, 'index'])->name('Consulta');
+
+// SERVIÇOS BANCO DE DADOS
 Route::get('/', [ServiceController::class, 'index']);
 Route::get('/events/create', [ServiceController::class, 'create']);
+Route::post('/submit-form', [SolicitaController::class, 'salvar'])->name('form.salvar');
+
+
 
 Route::get('/Saúde', function () {
     return view('Saúde');
