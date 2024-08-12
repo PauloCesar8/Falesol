@@ -21,11 +21,19 @@ class SolicitaController extends Controller
 
     public function mudarEstado(Request $request, $id)
     {
+        // Validação dos dados recebidos
+        $validatedData = $request->validate([
+            'verificador' => 'required|integer|in:1,2,3', // Verifica se o valor de verificador é válido
+        ]);
+    
+        // Busca a solicitação pelo ID
         $solicitacao = Solicitacoes::findOrFail($id);
+    
+        // Atualiza o verificador com o valor enviado no formulário
         $solicitacao->verificador = $request->input('verificador');
         $solicitacao->save();
-
-        return redirect()->route('consultar.todas')->with('success', 'Estado da solicitação atualizado com sucesso!');
+    
+        return redirect()->back()->with('success', 'Estado da solicitação atualizado com sucesso!');
     }
 
     public function responder(Request $request, $id)

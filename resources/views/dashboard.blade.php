@@ -10,13 +10,18 @@
         <div class="card card-plain">
           <div class="card-header pb-0 text-left bg-transparent">
             <p class="mb-0">Olá, como podemos ajudar?</p>
+            @if (Auth::check()) 
               @if (Auth::user()->conta == 1)
-                <a href="/solicitação" class="btn bg-gradient-info w-100 mt-4">Enviar uma solicitação</a>
-                <a href="/consulta-protocolo" class="btn bg-gradient-info w-100 mt-4">Consulta de Protocolo</a>
-              @elseif (Auth::user()->conta == 2)
-                <a href="/solicitação" class="btn bg-gradient-info w-100 mt-4">Painel de Solicitações</a>
-                <a href="/consulta-solicitacao" class="btn bg-gradient-info w-100 mt-4">Consulta de Protocolo</a>
-              @endif
+                  <a href="/solicitação" class="btn bg-gradient-info w-100 mt-4">Enviar uma solicitação</a>
+                  <a href="/consulta-protocolo" class="btn bg-gradient-info w-100 mt-4">Consulta de Protocolo</a>
+                @elseif (Auth::user()->conta == 2)
+                  <a href="/consultar-todas" class="btn bg-gradient-info w-100 mt-4">Tabela de Solicitações</a>
+                  <a href="/consulta-solicitacao" class="btn bg-gradient-info w-100 mt-4">Consulta de Protocolo</a>
+                @endif
+            @else
+              <a href="/solicitação" class="btn bg-gradient-info w-100 mt-4">Enviar uma solicitação</a>
+              <a href="/consulta-protocolo" class="btn bg-gradient-info w-100 mt-4">Consulta de Protocolo</a>
+            @endif  
           </div>
         </div>
       </div>

@@ -1,7 +1,7 @@
 @extends(auth()->check() ? 'layouts.user_type.auth' : 'layouts.user_type.guest')
 
 @section('content')
-@<div class="container">
+<div class="container">
     <h1 class="text-center mb-4">Consultar Todas Solicitações</h1>
 
     @if(session('success'))
@@ -28,12 +28,6 @@
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Nome</th>
-                    <th>Email</th>
-                    <th>Telefone</th>
-                    <th>Mensagem</th>
-                    <th>Anexos</th>
-                    <th>Estado</th>
                     <th>Ações</th>
                 </tr>
             </thead>
@@ -41,51 +35,51 @@
                 @foreach($solicitacoes as $solicitacao)
                     <tr>
                         <td>{{ $solicitacao->id }}</td>
-                        <td>{{ $solicitacao->nome }}</td>
-                        <td>{{ $solicitacao->email }}</td>
-                        <td>{{ $solicitacao->telefone }}</td>
-                        <td>{{ $solicitacao->mensagem }}</td>
-                        <td>
-                            @if (!empty($solicitacao->anexos))
-                            <strong>Anexos:</strong>
-                            <ul>
-                                @foreach (json_decode($solicitacao->anexos, true) as $file)
-                                    <li>
-                                        @php
-                                            $extension = pathinfo($file, PATHINFO_EXTENSION);
-                                        @endphp
-                                        @if (in_array($extension, ['jpg', 'jpeg', 'png', 'gif', 'svg', 'bmp', 'webp']))
-                                            <img src="{{ asset('storage/' . $file) }}" alt="Anexo" style="max-width: 200px; max-height: 200px;">
-                                        @else
-                                            <a href="{{ asset('storage/' . $file) }}" target="_blank">{{ $file }}</a>
-                                        @endif
-                                    </li>
-                                @endforeach
-                            </ul>
-                            @endif
-                        </td>
-                        <td>
-                            @if($solicitacao->verificador == 1)
-                                Em Aberto
-                            @elseif($solicitacao->verificador == 2)
-                                Em Análise
-                            @else
-                                Finalizado
-                            @endif
-                        </td>
-                        <td>
-                            <form method="POST" action="{{ route('mudar.estado', $solicitacao->id) }}" class="mb-2">
-                                @csrf
-                                <select name="verificador" class="form-control">
-                                    <option value="1" {{ $solicitacao->verificador == 1 ? 'selected' : '' }}>Em Aberto</option>
-                                    <option value="2" {{ $solicitacao->verificador == 2 ? 'selected' : '' }}>Em Análise</option>
-                                    <option value="3" {{ $solicitacao->verificador == 3 ? 'selected' : '' }}>Finalizado</option>
-                                </select>
-                                <button type="submit" class="btn btn-warning mt-2">Mudar Estado</button>
-                            </form>
-                            <button class="btn btn-info" data-toggle="modal" data-target="#responderModal{{ $solicitacao->id }}">Responder</button>
 
-                            <!-- Modal -->
+                        <td>
+                            <div class="d-flex flex-column align-items-center" style="width: 150px;">
+                                <button class="btn btn-info w-100 mb-2" data-toggle="collapse" data-target="#detalhes{{ $solicitacao->id }}">Mostrar mais</button>
+                                <form method="POST" action="{{ route('mudar.estado', $solicitacao->id) }}" class="mb-2">
+                                    @csrf
+                                    <select name="verificador" class="form-control" required>
+                                        <option value="1" {{ $solicitacao->verificador == 1 ? 'selected' : '' }}>Em Aberto</option>
+                                        <option value="2" {{ $solicitacao->verificador == 2 ? 'selected' : '' }}>Em Análise</option>
+                                        <option value="3" {{ $solicitacao->verificador == 3 ? 'selected' : '' }}>Finalizado</option>
+                                    </select>
+                                    <button type="submit" class="btn btn-warning mt-2">Mudar Estado</button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="collapse" id="detalhes{{ $solicitacao->id }}">
+                        <td colspan="3">
+                            <strong>Nome:</strong> {{ $solicitacao->Nome }}<br>
+                            <strong>Email:</strong> {{ $solicitacao->email }}<br>
+                            <strong>Telefone:</strong> {{ $solicitacao->telefone }}<br>
+                            <strong>Mensagem:</strong> {{ $solicitacao->mensagem }}<br>
+                            @if (!empty($solicitacao->anexos))
+                                <strong>Anexos:</strong>
+                                <ul>
+                                    @foreach (json_decode($solicitacao->anexos, true) as $file)
+                                        <li>
+                                            @php
+                                                $extension = pathinfo($file, PATHINFO_EXTENSION);
+                                            @endphp
+                                            @if (in_array($extension, ['jpg', 'jpeg', 'png', 'gif', 'svg', 'bmp', 'webp']))
+                                                <img src="{{ asset('storage/' . $file) }}" alt="Anexo" style="max-width: 200px; max-height: 200px;">
+                                            @else
+                                                <a href="{{ asset('storage/' . $file) }}" target="_blank">{{ $file }}</a>
+                                            @endif
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            @endif
+                            @if(!empty($solicitacao->resposta))
+                                <strong>Resposta:</strong>
+                                <p>{{ $solicitacao->resposta }}</p>
+                            @endif
+                            <!-- Botão Responder e Modal -->
+                            <button class="btn btn-primary mt-2" data-toggle="modal" data-target="#responderModal{{ $solicitacao->id }}">Responder</button>
                             <div class="modal fade" id="responderModal{{ $solicitacao->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
@@ -111,6 +105,7 @@
                                     </div>
                                 </div>
                             </div>
+                            <!-- Fim do Modal Responder -->
                         </td>
                     </tr>
                 @endforeach

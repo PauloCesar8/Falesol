@@ -90,13 +90,12 @@ Route::post('/responder-solicitacao/{id}', [SolicitaController::class, 'responde
 Route::get('teste', function () {
 	return view('welcome');
 });
-Route::get('/', [HomeController::class, 'home']);
+Route::get('/', [ServiceController::class, 'index2'])->name('dashboard');
 Route::get('pesquisa', [ServiceController::class, 'index'])->name('pesquisa');
 Route::get('dashboard', [ServiceController::class, 'index2'])->name('dashboard');
 Route::get('consulta', [SolicitaController::class, 'index'])->name('Consulta');
 
 // SERVIÇOS BANCO DE DADOS
-Route::get('/', [ServiceController::class, 'index']);
 Route::get('/events/create', [ServiceController::class, 'create']);
 Route::post('/submit-form', [SolicitaController::class, 'salvar'])->name('form.salvar');
 
